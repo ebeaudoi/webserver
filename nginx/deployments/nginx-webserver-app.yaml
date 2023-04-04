@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-webserver
+  namespace: testproject
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-webserver
+  template:
+    metadata:
+      labels:
+        app: nginx-webserver
+    spec:
+      containers:
+      - name: nginx-webserver
+        image: devt-lx-quay.devtest.local:8443/ocp4/nginx-unprivileged:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - mountPath: /host/testdir
+            name: nginx-volume
+        securityContext:
+          seccompProfile:
+            type: "RuntimeDefault"
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+        - name: nginx-volume
+          persistentVolumeClaim:
+            claimName: nginx-pvc
+---
+

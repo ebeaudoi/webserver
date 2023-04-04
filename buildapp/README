@@ -1,0 +1,32 @@
+-- Testing using Openshift
+
+
+-- Testing using PODMAN
+- Create a index.html
+cat index.html
+~~
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to DND</title>
+</head>
+<body>
+  <h2>This web server is for testing purpose only</h2>
+</body>
+</html>
+~~
+
+- Create a docker file
+cat Dockerfile
+~~~
+FROM devt-lx-quay.devtest.local:8443/ocp4/nginx:latest
+COPY ./index.html /usr/share/nginx/html/index.html
+~~~
+
+- Build
+podman build -t webserver .
+
+- Run the container
+podman run -it --rm -d -p 10.91.5.29:8080:80 --name web webserver
+
