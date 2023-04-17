@@ -1,7 +1,7 @@
-FROM devt-lx-quay.devtest.local:8443/ocp4/nginx:latest
-
+#FROM devt-lx-quay.devtest.local:8443/ocp4/nginx:latest
+FROM devt-lx-quay.devtest.local:8443/ocp4/ebdn-nginx:latest
 COPY ./index.html /usr/share/nginx/html/index.html
 
- EXPOSE 8080
+# EXPOSE 8080
  
- CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
